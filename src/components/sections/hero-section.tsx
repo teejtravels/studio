@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -9,7 +10,7 @@ interface HeroSectionProps {
 export default function HeroSection({ id }: HeroSectionProps) {
   return (
     <section id={id} className="relative h-[calc(100vh-4rem)] min-h-[600px] flex items-center justify-center text-center text-foreground overflow-hidden">
-      {/* Background Image with Parallax Effect */}
+      {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
           src="/img/vibehero.jpg" // Use local image from public/img/vibehero.jpg
@@ -17,12 +18,12 @@ export default function HeroSection({ id }: HeroSectionProps) {
           data-ai-hint="synthwave cityscape" // Updated AI hint for the new image
           fill
           style={{ objectFit: 'cover' }}
-          className="parallax-bg opacity-50" // Opacity can be adjusted based on the image
+          className="opacity-75" // Removed parallax, increased opacity slightly
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/80 to-background z-10"></div>
       </div>
-      
+
       {/* Content */}
       <div className="relative z-20 container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center">
         <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold mb-6">
@@ -33,8 +34,8 @@ export default function HeroSection({ id }: HeroSectionProps) {
           Dive into the world of programming with VibeCode Camp – where learning to code is an electrifying 80s-inspired adventure!
         </p>
         <Link href="#sign-up">
-          <Button 
-            size="lg" 
+          <Button
+            size="lg"
             className="text-lg font-semibold px-10 py-6 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg button-glow-primary transition-all duration-300 transform hover:scale-105"
             aria-label="Sign up for VibeCode Camp"
           >
