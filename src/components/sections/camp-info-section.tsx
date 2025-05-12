@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Zap, TerminalSquare, Github, CodeXml, Lightbulb, BrainCircuit } from 'lucide-react';
+import { Zap, TerminalSquare, Github, CodeXml, Lightbulb, BrainCircuit, MapPin, Globe } from 'lucide-react'; // Added MapPin, Globe
 
 interface CampInfoSectionProps {
   id: string;
@@ -13,23 +13,28 @@ const infoItems = [
   },
   {
     icon: <BrainCircuit className="h-10 w-10 text-accent icon-glow-accent" />,
-    title: 'Cutting-Edge AI Tools', // Updated Title
-    description: 'Students will get hands-on experience with prompting AI, understanding GenAI models, and using the newest, cutting-edge AI tools and technologies to build AI-integrated applications.', // Updated Description
+    title: 'Cutting-Edge AI Tools',
+    description: 'Students will get hands-on experience with prompting AI, understanding GenAI models, and using the newest, cutting-edge AI tools and technologies to build AI-integrated applications.',
   },
   {
     icon: <Github className="h-10 w-10 text-secondary" />,
-    title: 'Collaborate with GitHub',
-    description: 'Learn version control basics with GitHub, understanding how to manage AI projects, collaborate with others, and showcase their innovative work.',
+    title: 'Build & Host Your Portfolio',
+    description: 'Learn version control with GitHub and deploy your own personal website, designed entirely by you and AI, hosted free on GitHub Pages!',
   },
   {
     icon: <TerminalSquare className="h-10 w-10 text-primary icon-glow-primary" />,
     title: 'Master the Dev Environment',
-    description: 'Gain confidence using the command line (terminal), modern IDEs like Firebase Studio, and other essential developer tools for building and deploying AI-assisted projects.', // Updated Description
+    description: 'Gain confidence using the command line (terminal), modern IDEs like Firebase Studio, and other essential developer tools for building and deploying AI-assisted projects.',
   },
   {
     icon: <Lightbulb className="h-10 w-10 text-accent icon-glow-accent" />,
     title: 'The Vibe-Coding Concept',
     description: 'Vibe-Coding is our unique approach, empowering students to harness the power of AI models for code generation and application building. They\'ll learn to prompt, iterate, and integrate AI into their creative tech projects.',
+  },
+   {
+    icon: <MapPin className="h-10 w-10 text-secondary" />,
+    title: 'Prime Beach Location',
+    description: 'Our camp is located in beautiful Redondo Beach, CA, offering an inspiring and sunny environment for learning and creation.',
   },
 ];
 
@@ -41,8 +46,8 @@ export default function CampInfoSection({ id }: CampInfoSectionProps) {
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-glow-primary">
             What Your Child Will Create & Learn
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            We provide a cutting-edge AI learning experience focused on building real-world applications with the latest tools.
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+            We provide a cutting-edge AI learning experience focused on building real-world applications like personal portfolio websites, using the latest tools, all from our Redondo Beach location.
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

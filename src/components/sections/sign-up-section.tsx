@@ -1,8 +1,8 @@
 
 "use client";
 
-import { useEffect, useActionState } from 'react'; 
-import { useFormStatus } from 'react-dom'; 
+import { useEffect, useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -20,7 +20,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { submitSignUpForm, type SignUpFormState } from '@/lib/actions';
 import { useToast } from "@/hooks/use-toast";
-import ClientOnly from '@/components/client-only'; 
+import ClientOnly from '@/components/client-only';
 
 const SignUpSchema = z.object({
   parentName: z.string().min(2, { message: "Parent's name must be at least 2 characters." }),
@@ -65,6 +65,7 @@ export default function SignUpSection({ id }: SignUpSectionProps) {
       codingExperience: undefined,
       preferredWeek: "",
     },
+    // If the server action returns errors, populate the form errors
     errors: state?.errors ? state.errors : undefined,
   });
 
@@ -75,16 +76,40 @@ export default function SignUpSection({ id }: SignUpSectionProps) {
           title: "Registration Successful!",
           description: state.message,
         });
-        form.reset(); 
+        form.reset(); // Reset form fields on success
       } else {
         toast({
           title: "Registration Failed",
           description: state.message || "Please check the form for errors.",
           variant: "destructive",
         });
+        // Update form errors based on server response
+        if (state.errors) {
+          Object.entries(state.errors).forEach(([key, value]) => {
+            if (value) {
+              form.setError(key as keyof SignUpFormValues, {
+                type: 'manual',
+                message: value[0], // Assuming the first error message is sufficient
+              });
+            }
+          });
+        }
       }
     }
   }, [state, toast, form]);
+
+  // Function to handle form submission via client-side validation first
+  const processForm: React.FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+
+    // Trigger RHF validation
+    form.handleSubmit(() => {
+      // If RHF validation passes, call the server action
+      formAction(formData);
+    })(event); // Pass the event to handleSubmit
+  };
+
 
   return (
     <section id={id} className="py-16 md:py-24 bg-background">
@@ -94,58 +119,74 @@ export default function SignUpSection({ id }: SignUpSectionProps) {
             <CardHeader className="text-center">
               <CardTitle className="text-4xl font-bold text-glow-accent mb-2">Join the Vibe!</CardTitle>
               <CardDescription className="text-lg text-muted-foreground">
-                Sign up your child for an unforgettable AI-powered building adventure. Spots are limited!
+                Sign up your child for an unforgettable AI-powered building adventure at our Redondo Beach camp. Spots are limited!
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <form action={formAction} className="space-y-6">
+              {/* Use processForm which includes client-side validation before server action */}
+              <form onSubmit={processForm} className="space-y-6">
                 <div>
                   <Label htmlFor="parentName" className="text-foreground text-sm font-medium">Parent's Name</Label>
                   <Input
+                    {...form.register("parentName")} // Register with RHF
                     id="parentName"
-                    name="parentName"
+                    name="parentName" // Keep name for FormData
                     required
                     className="mt-1 bg-input border-border focus:ring-primary focus:border-primary"
-                    aria-invalid={!!state.errors?.parentName}
+                    aria-invalid={!!form.formState.errors.parentName || !!state.errors?.parentName}
                     aria-describedby="parentName-error"
                   />
-                  {state.errors?.parentName && <p id="parentName-error" className="text-sm text-destructive mt-1">{state.errors.parentName[0]}</p>}
+                   {/* Display RHF error first, then server error */}
+                  <p id="parentName-error" className="text-sm text-destructive mt-1">
+                    {form.formState.errors.parentName?.message || (state.errors?.parentName ? state.errors.parentName[0] : '')}
+                  </p>
                 </div>
 
                 <div>
                   <Label htmlFor="studentName" className="text-foreground text-sm font-medium">Student's Name</Label>
                   <Input
+                    {...form.register("studentName")}
                     id="studentName"
                     name="studentName"
                     required
                     className="mt-1 bg-input border-border focus:ring-primary focus:border-primary"
-                    aria-invalid={!!state.errors?.studentName}
+                    aria-invalid={!!form.formState.errors.studentName || !!state.errors?.studentName}
                     aria-describedby="studentName-error"
                   />
-                  {state.errors?.studentName && <p id="studentName-error" className="text-sm text-destructive mt-1">{state.errors.studentName[0]}</p>}
+                   <p id="studentName-error" className="text-sm text-destructive mt-1">
+                    {form.formState.errors.studentName?.message || (state.errors?.studentName ? state.errors.studentName[0] : '')}
+                  </p>
                 </div>
 
                 <div>
                   <Label htmlFor="email" className="text-foreground text-sm font-medium">Email Address</Label>
                   <Input
+                    {...form.register("email")}
                     id="email"
                     name="email"
                     type="email"
                     required
                     className="mt-1 bg-input border-border focus:ring-primary focus:border-primary"
-                    aria-invalid={!!state.errors?.email}
+                    aria-invalid={!!form.formState.errors.email || !!state.errors?.email}
                     aria-describedby="email-error"
                   />
-                  {state.errors?.email && <p id="email-error" className="text-sm text-destructive mt-1">{state.errors.email[0]}</p>}
+                   <p id="email-error" className="text-sm text-destructive mt-1">
+                    {form.formState.errors.email?.message || (state.errors?.email ? state.errors.email[0] : '')}
+                   </p>
                 </div>
 
                 <div>
                   <Label htmlFor="codingExperience" className="text-foreground text-sm font-medium">Student's Tech/AI Experience</Label>
-                   <Select name="codingExperience" required>
+                   <Select
+                     name="codingExperience" // Keep name for FormData
+                     required
+                     onValueChange={(value) => form.setValue('codingExperience', value as 'none' | 'beginner' | 'intermediate', { shouldValidate: true })} // Update RHF state
+                     value={form.watch('codingExperience')} // Control component with RHF state
+                   >
                     <SelectTrigger
                       id="codingExperience"
                       className="mt-1 w-full bg-input border-border focus:ring-primary focus:border-primary"
-                      aria-invalid={!!state.errors?.codingExperience}
+                      aria-invalid={!!form.formState.errors.codingExperience || !!state.errors?.codingExperience}
                       aria-describedby="codingExperience-error"
                     >
                       <SelectValue placeholder="Select experience level" />
@@ -156,16 +197,23 @@ export default function SignUpSection({ id }: SignUpSectionProps) {
                       <SelectItem value="intermediate">Intermediate - Has experimented with AI or coding</SelectItem>
                     </SelectContent>
                   </Select>
-                  {state.errors?.codingExperience && <p id="codingExperience-error" className="text-sm text-destructive mt-1">{state.errors.codingExperience[0]}</p>}
+                   <p id="codingExperience-error" className="text-sm text-destructive mt-1">
+                    {form.formState.errors.codingExperience?.message || (state.errors?.codingExperience ? state.errors.codingExperience[0] : '')}
+                   </p>
                 </div>
 
                 <div>
                   <Label htmlFor="preferredWeek" className="text-foreground text-sm font-medium">Preferred Camp Week</Label>
-                  <Select name="preferredWeek" required>
+                  <Select
+                    name="preferredWeek" // Keep name for FormData
+                    required
+                    onValueChange={(value) => form.setValue('preferredWeek', value, { shouldValidate: true })} // Update RHF state
+                    value={form.watch('preferredWeek')} // Control component with RHF state
+                  >
                     <SelectTrigger
                       id="preferredWeek"
                       className="mt-1 w-full bg-input border-border focus:ring-primary focus:border-primary"
-                      aria-invalid={!!state.errors?.preferredWeek}
+                       aria-invalid={!!form.formState.errors.preferredWeek || !!state.errors?.preferredWeek}
                       aria-describedby="preferredWeek-error"
                     >
                       <SelectValue placeholder="Select a week" />
@@ -177,7 +225,9 @@ export default function SignUpSection({ id }: SignUpSectionProps) {
                       <SelectItem value="Week 4 (July 29 - Aug 2)">Week 4 (July 29 - Aug 2)</SelectItem>
                     </SelectContent>
                   </Select>
-                  {state.errors?.preferredWeek && <p id="preferredWeek-error" className="text-sm text-destructive mt-1">{state.errors.preferredWeek[0]}</p>}
+                   <p id="preferredWeek-error" className="text-sm text-destructive mt-1">
+                      {form.formState.errors.preferredWeek?.message || (state.errors?.preferredWeek ? state.errors.preferredWeek[0] : '')}
+                   </p>
                 </div>
 
                 <SubmitButton />
