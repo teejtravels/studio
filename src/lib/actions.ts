@@ -3,24 +3,32 @@
 
 import { z } from 'zod';
 
+// Updated schema with separate first/last names
 const SignUpSchema = z.object({
-  parentName: z.string().min(2, { message: "Parent's name must be at least 2 characters." }),
-  studentName: z.string().min(2, { message: "Student's name must be at least 2 characters." }),
+  parentFirstName: z.string().min(1, { message: "Parent's first name is required." }),
+  parentLastName: z.string().min(1, { message: "Parent's last name is required." }),
+  studentFirstName: z.string().min(1, { message: "Student's first name is required." }),
+  studentLastName: z.string().min(1, { message: "Student's last name is required." }),
   email: z.string().email({ message: "Invalid email address." }),
   codingExperience: z.enum(['none', 'beginner', 'intermediate'], { message: "Please select coding experience." }),
   preferredWeek: z.string().min(1, { message: "Please select a preferred week." }),
 });
 
+// Updated state type for errors
 export type SignUpFormState = {
   message: string;
   errors?: {
-    parentName?: string[];
-    studentName?: string[];
+    parentFirstName?: string[];
+    parentLastName?: string[];
+    studentFirstName?: string[];
+    studentLastName?: string[];
     email?: string[];
     codingExperience?: string[];
     preferredWeek?: string[];
   };
   success: boolean;
+  // Add a field to optionally return data for post-success actions like payment links
+  submissionData?: z.infer<typeof SignUpSchema>;
 };
 
 export async function submitSignUpForm(
@@ -28,8 +36,10 @@ export async function submitSignUpForm(
   formData: FormData
 ): Promise<SignUpFormState> {
   const validatedFields = SignUpSchema.safeParse({
-    parentName: formData.get('parentName'),
-    studentName: formData.get('studentName'),
+    parentFirstName: formData.get('parentFirstName'),
+    parentLastName: formData.get('parentLastName'),
+    studentFirstName: formData.get('studentFirstName'),
+    studentLastName: formData.get('studentLastName'),
     email: formData.get('email'),
     codingExperience: formData.get('codingExperience'),
     preferredWeek: formData.get('preferredWeek'),
@@ -43,26 +53,31 @@ export async function submitSignUpForm(
     };
   }
 
-  const { parentName, studentName, email, codingExperience, preferredWeek } = validatedFields.data;
+  const submissionData = validatedFields.data;
 
-  // In a real application, you would post this data to Airtable, Google Sheet, or a database.
-  // For example:
+  // **Google Sheet / Database Integration Simulation:**
+  // In a real application, you would send this data to your backend,
+  // which would then save it to a Google Sheet, database (e.g., Firestore), etc.
+  // Example:
   // try {
-  //   const response = await fetch('YOUR_AIRTABLE_ENDPOINT', {
-  //     method: 'POST',
-  //     headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer YOUR_API_KEY` },
-  //     body: JSON.stringify({ fields: validatedFields.data }),
-  //   });
-  //   if (!response.ok) throw new Error('Failed to submit to Airtable');
+  //   await saveToGoogleSheet(submissionData);
+  //   // Or: await db.collection('signups').add(submissionData);
   // } catch (error) {
-  //   console.error("Form submission error:", error);
-  //   return { message: "An error occurred while submitting the form. Please try again.", success: false };
+  //   console.error("Data submission error:", error);
+  //   return { message: "An error occurred saving your registration. Please try again.", success: false };
   // }
 
-  console.log("Form data submitted:", { parentName, studentName, email, codingExperience, preferredWeek });
+  console.log("Form data submitted (simulated save):", submissionData);
+
+  // **Stripe Payment Link Generation (Simulation):**
+  // Here, you might interact with Stripe's API to create a checkout session
+  // or payment link based on the selected week/program.
+  // For this example, we'll just pass the data back to the client.
 
   return {
-    message: `Thanks for signing up, ${parentName}! We've received the registration for ${studentName}. We'll be in touch at ${email} regarding week ${preferredWeek}.`,
+    message: `Thanks for signing up, ${submissionData.parentFirstName}! We've received the registration for ${submissionData.studentFirstName}. We'll be in touch at ${submissionData.email} regarding week ${submissionData.preferredWeek}.`,
     success: true,
+    submissionData: submissionData, // Pass data back for potential client-side actions
   };
 }
+

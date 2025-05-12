@@ -1,11 +1,12 @@
 
 "use client";
 
-import { useEffect, useActionState } from 'react';
+import { useEffect, useActionState, useState } from 'react'; // Added useState
 import { useFormStatus } from 'react-dom';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import Link from 'next/link'; // Import Link for the payment button
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,13 +23,17 @@ import { submitSignUpForm, type SignUpFormState } from '@/lib/actions';
 import { useToast } from "@/hooks/use-toast";
 import ClientOnly from '@/components/client-only';
 
+// Updated schema type definition to match actions.ts
 const SignUpSchema = z.object({
-  parentName: z.string().min(2, { message: "Parent's name must be at least 2 characters." }),
-  studentName: z.string().min(2, { message: "Student's name must be at least 2 characters." }),
+  parentFirstName: z.string().min(1, { message: "Parent's first name is required." }),
+  parentLastName: z.string().min(1, { message: "Parent's last name is required." }),
+  studentFirstName: z.string().min(1, { message: "Student's first name is required." }),
+  studentLastName: z.string().min(1, { message: "Student's last name is required." }),
   email: z.string().email({ message: "Invalid email address." }),
   codingExperience: z.enum(['none', 'beginner', 'intermediate']),
   preferredWeek: z.string().min(1, {message: "Please select a week"}),
 });
+
 
 type SignUpFormValues = z.infer<typeof SignUpSchema>;
 
@@ -52,15 +57,19 @@ function SubmitButton() {
 
 export default function SignUpSection({ id }: SignUpSectionProps) {
   const { toast } = useToast();
+  const [showPaymentLink, setShowPaymentLink] = useState(false); // State for payment link visibility
 
   const initialState: SignUpFormState = { message: "", success: false };
   const [state, formAction] = useActionState(submitSignUpForm, initialState);
 
   const form = useForm<SignUpFormValues>({
     resolver: zodResolver(SignUpSchema),
+    // Update default values
     defaultValues: {
-      parentName: "",
-      studentName: "",
+      parentFirstName: "",
+      parentLastName: "",
+      studentFirstName: "",
+      studentLastName: "",
       email: "",
       codingExperience: undefined,
       preferredWeek: "",
@@ -77,12 +86,14 @@ export default function SignUpSection({ id }: SignUpSectionProps) {
           description: state.message,
         });
         form.reset(); // Reset form fields on success
+        setShowPaymentLink(true); // Show payment link/button on success
       } else {
         toast({
           title: "Registration Failed",
           description: state.message || "Please check the form for errors.",
           variant: "destructive",
         });
+        setShowPaymentLink(false); // Ensure payment link is hidden on failure
         // Update form errors based on server response
         if (state.errors) {
           Object.entries(state.errors).forEach(([key, value]) => {
@@ -101,6 +112,7 @@ export default function SignUpSection({ id }: SignUpSectionProps) {
   // Function to handle form submission via client-side validation first
   const processForm: React.FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
+    setShowPaymentLink(false); // Hide payment link on new submission attempt
     const formData = new FormData(event.currentTarget);
 
     // Trigger RHF validation
@@ -125,39 +137,75 @@ export default function SignUpSection({ id }: SignUpSectionProps) {
             <CardContent>
               {/* Use processForm which includes client-side validation before server action */}
               <form onSubmit={processForm} className="space-y-6">
-                <div>
-                  <Label htmlFor="parentName" className="text-foreground text-sm font-medium">Parent's Name</Label>
-                  <Input
-                    {...form.register("parentName")} // Register with RHF
-                    id="parentName"
-                    name="parentName" // Keep name for FormData
-                    required
-                    className="mt-1 bg-input border-border focus:ring-primary focus:border-primary"
-                    aria-invalid={!!form.formState.errors.parentName || !!state.errors?.parentName}
-                    aria-describedby="parentName-error"
-                  />
-                   {/* Display RHF error first, then server error */}
-                  <p id="parentName-error" className="text-sm text-destructive mt-1">
-                    {form.formState.errors.parentName?.message || (state.errors?.parentName ? state.errors.parentName[0] : '')}
-                  </p>
-                </div>
+                {/* Parent Name Fields */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                   <div>
+                     <Label htmlFor="parentFirstName" className="text-foreground text-sm font-medium">Parent's First Name</Label>
+                     <Input
+                       {...form.register("parentFirstName")}
+                       id="parentFirstName"
+                       name="parentFirstName"
+                       required
+                       className="mt-1 bg-input border-border focus:ring-primary focus:border-primary"
+                       aria-invalid={!!form.formState.errors.parentFirstName || !!state.errors?.parentFirstName}
+                       aria-describedby="parentFirstName-error"
+                     />
+                     <p id="parentFirstName-error" className="text-sm text-destructive mt-1">
+                       {form.formState.errors.parentFirstName?.message || (state.errors?.parentFirstName ? state.errors.parentFirstName[0] : '')}
+                     </p>
+                   </div>
+                   <div>
+                     <Label htmlFor="parentLastName" className="text-foreground text-sm font-medium">Parent's Last Name</Label>
+                     <Input
+                       {...form.register("parentLastName")}
+                       id="parentLastName"
+                       name="parentLastName"
+                       required
+                       className="mt-1 bg-input border-border focus:ring-primary focus:border-primary"
+                       aria-invalid={!!form.formState.errors.parentLastName || !!state.errors?.parentLastName}
+                       aria-describedby="parentLastName-error"
+                     />
+                     <p id="parentLastName-error" className="text-sm text-destructive mt-1">
+                       {form.formState.errors.parentLastName?.message || (state.errors?.parentLastName ? state.errors.parentLastName[0] : '')}
+                     </p>
+                   </div>
+                 </div>
 
-                <div>
-                  <Label htmlFor="studentName" className="text-foreground text-sm font-medium">Student's Name</Label>
-                  <Input
-                    {...form.register("studentName")}
-                    id="studentName"
-                    name="studentName"
-                    required
-                    className="mt-1 bg-input border-border focus:ring-primary focus:border-primary"
-                    aria-invalid={!!form.formState.errors.studentName || !!state.errors?.studentName}
-                    aria-describedby="studentName-error"
-                  />
-                   <p id="studentName-error" className="text-sm text-destructive mt-1">
-                    {form.formState.errors.studentName?.message || (state.errors?.studentName ? state.errors.studentName[0] : '')}
-                  </p>
-                </div>
+                 {/* Student Name Fields */}
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                   <div>
+                     <Label htmlFor="studentFirstName" className="text-foreground text-sm font-medium">Student's First Name</Label>
+                     <Input
+                       {...form.register("studentFirstName")}
+                       id="studentFirstName"
+                       name="studentFirstName"
+                       required
+                       className="mt-1 bg-input border-border focus:ring-primary focus:border-primary"
+                       aria-invalid={!!form.formState.errors.studentFirstName || !!state.errors?.studentFirstName}
+                       aria-describedby="studentFirstName-error"
+                     />
+                     <p id="studentFirstName-error" className="text-sm text-destructive mt-1">
+                       {form.formState.errors.studentFirstName?.message || (state.errors?.studentFirstName ? state.errors.studentFirstName[0] : '')}
+                     </p>
+                   </div>
+                   <div>
+                     <Label htmlFor="studentLastName" className="text-foreground text-sm font-medium">Student's Last Name</Label>
+                     <Input
+                       {...form.register("studentLastName")}
+                       id="studentLastName"
+                       name="studentLastName"
+                       required
+                       className="mt-1 bg-input border-border focus:ring-primary focus:border-primary"
+                       aria-invalid={!!form.formState.errors.studentLastName || !!state.errors?.studentLastName}
+                       aria-describedby="studentLastName-error"
+                     />
+                     <p id="studentLastName-error" className="text-sm text-destructive mt-1">
+                       {form.formState.errors.studentLastName?.message || (state.errors?.studentLastName ? state.errors.studentLastName[0] : '')}
+                     </p>
+                   </div>
+                 </div>
 
+                {/* Email Field */}
                 <div>
                   <Label htmlFor="email" className="text-foreground text-sm font-medium">Email Address</Label>
                   <Input
@@ -175,6 +223,7 @@ export default function SignUpSection({ id }: SignUpSectionProps) {
                    </p>
                 </div>
 
+                {/* Coding Experience Select */}
                 <div>
                   <Label htmlFor="codingExperience" className="text-foreground text-sm font-medium">Student's Tech/AI Experience</Label>
                    <Select
@@ -202,6 +251,7 @@ export default function SignUpSection({ id }: SignUpSectionProps) {
                    </p>
                 </div>
 
+                {/* Preferred Week Select */}
                 <div>
                   <Label htmlFor="preferredWeek" className="text-foreground text-sm font-medium">Preferred Camp Week</Label>
                   <Select
@@ -232,6 +282,21 @@ export default function SignUpSection({ id }: SignUpSectionProps) {
 
                 <SubmitButton />
               </form>
+
+              {/* Conditionally render payment button */}
+              {showPaymentLink && (
+                 <div className="mt-8 text-center">
+                   <p className="text-muted-foreground mb-4">Registration received! Please proceed to payment to secure your spot.</p>
+                   {/* Placeholder Stripe Link - Replace with actual generated link */}
+                   <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground button-glow-primary">
+                     <Link href="https://buy.stripe.com/placeholder" target="_blank" rel="noopener noreferrer">
+                       Proceed to Payment
+                     </Link>
+                   </Button>
+                   <p className='text-xs text-muted-foreground mt-2'>(Opens in new tab)</p>
+                 </div>
+               )}
+
             </CardContent>
           </Card>
         </ClientOnly>
