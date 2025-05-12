@@ -13,8 +13,8 @@ const infoItems = [
   },
   {
     icon: <BrainCircuit className="h-10 w-10 text-accent icon-glow-accent" />,
-    title: 'Prompt Engineering & AI Tools',
-    description: 'Students will get hands-on experience with prompting AI, understanding GenAI models, and using modern tools to build AI-integrated applications.',
+    title: 'Cutting-Edge AI Tools', // Updated Title
+    description: 'Students will get hands-on experience with prompting AI, understanding GenAI models, and using the newest, cutting-edge AI tools and technologies to build AI-integrated applications.', // Updated Description
   },
   {
     icon: <Github className="h-10 w-10 text-secondary" />,
@@ -24,7 +24,7 @@ const infoItems = [
   {
     icon: <TerminalSquare className="h-10 w-10 text-primary icon-glow-primary" />,
     title: 'Master the Dev Environment',
-    description: 'Gain confidence using the command line, VS Code, and other essential developer tools for building and deploying AI-assisted projects.',
+    description: 'Gain confidence using the command line (terminal), modern IDEs like Firebase Studio, and other essential developer tools for building and deploying AI-assisted projects.', // Updated Description
   },
   {
     icon: <Lightbulb className="h-10 w-10 text-accent icon-glow-accent" />,
@@ -42,7 +42,7 @@ export default function CampInfoSection({ id }: CampInfoSectionProps) {
             What Your Child Will Create & Learn
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            We provide a cutting-edge AI learning experience focused on building real-world applications.
+            We provide a cutting-edge AI learning experience focused on building real-world applications with the latest tools.
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
