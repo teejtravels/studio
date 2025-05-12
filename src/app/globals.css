@@ -8,73 +8,89 @@ body {
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
+    --background: 230 35% 15%; /* Dark Blue */
+    --foreground: 210 40% 98%; /* Light Cool White */
+
+    --card: 230 35% 20%; /* Slightly Lighter Dark Blue for cards */
+    --card-foreground: 210 40% 98%;
+
+    --popover: 230 35% 18%; /* Darker popover */
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 190 100% 50%; /* Bright Cyan */
+    --primary-foreground: 230 35% 10%; /* Dark color for text on cyan */
+
+    --secondary: 45 90% 65%; /* Softer Yellow */
+    --secondary-foreground: 230 35% 10%; /* Dark color for text on yellow */
+
+    --muted: 230 35% 25%; /* Muted for dark theme */
+    --muted-foreground: 210 40% 70%; /* Muted foreground for dark theme */
+
+    --accent: 320 100% 55%; /* Bright Magenta */
+    --accent-foreground: 210 40% 98%; /* Light color for text on magenta */
+
+    --destructive: 0 70% 50%; /* Adjusted destructive for dark theme */
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+
+    --border: 230 35% 30%; /* Border for dark theme */
+    --input: 230 35% 22%; /* Input background for dark theme */
+    --ring: 190 100% 50%; /* Cyan for focus rings */
+
+    --chart-1: 190 100% 50%;
+    --chart-2: 320 100% 55%;
+    --chart-3: 45 90% 65%;
+    --chart-4: 210 100% 60%;
+    --chart-5: 270 100% 60%;
+
     --radius: 0.5rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Sidebar colors (less relevant for this landing page, but good to keep consistent) */
+    --sidebar-background: 230 35% 12%;
+    --sidebar-foreground: 210 40% 90%;
+    --sidebar-primary: 190 100% 50%;
+    --sidebar-primary-foreground: 230 35% 10%;
+    --sidebar-accent: 320 100% 55%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 230 35% 25%;
+    --sidebar-ring: 190 100% 50%;
   }
+
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
+    /* Using the same dark theme variables directly as it's a dark-by-default theme */
+    --background: 230 35% 15%;
+    --foreground: 210 40% 98%;
+    --card: 230 35% 20%;
+    --card-foreground: 210 40% 98%;
+    --popover: 230 35% 18%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 190 100% 50%;
+    --primary-foreground: 230 35% 10%;
+    --secondary: 45 90% 65%;
+    --secondary-foreground: 230 35% 10%;
+    --muted: 230 35% 25%;
+    --muted-foreground: 210 40% 70%;
+    --accent: 320 100% 55%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 70% 50%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --border: 230 35% 30%;
+    --input: 230 35% 22%;
+    --ring: 190 100% 50%;
+
+    --chart-1: 190 100% 50%;
+    --chart-2: 320 100% 55%;
+    --chart-3: 45 90% 65%;
+    --chart-4: 210 100% 60%;
+    --chart-5: 270 100% 60%;
+
+    --sidebar-background: 230 35% 12%;
+    --sidebar-foreground: 210 40% 90%;
+    --sidebar-primary: 190 100% 50%;
+    --sidebar-primary-foreground: 230 35% 10%;
+    --sidebar-accent: 320 100% 55%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 230 35% 25%;
+    --sidebar-ring: 190 100% 50%;
   }
 }
 
@@ -82,7 +98,49 @@ body {
   * {
     @apply border-border;
   }
+  html {
+    @apply scroll-smooth;
+  }
   body {
     @apply bg-background text-foreground;
+    min-height: 100vh;
+  }
+}
+
+@layer utilities {
+  .text-glow-primary {
+    color: hsl(var(--primary-foreground)); /* Ensure text color is light enough before glow */
+    text-shadow:
+      0 0 2px hsl(var(--background)), /* Inner dark shadow for contrast */
+      0 0 5px hsl(var(--primary) / 0.8),
+      0 0 10px hsl(var(--primary) / 0.6),
+      0 0 15px hsl(var(--primary) / 0.4);
+  }
+   .text-glow-accent {
+    color: hsl(var(--accent-foreground));
+    text-shadow:
+      0 0 2px hsl(var(--background)),
+      0 0 5px hsl(var(--accent) / 0.8),
+      0 0 10px hsl(var(--accent) / 0.6),
+      0 0 15px hsl(var(--accent) / 0.4);
+  }
+  .icon-glow-primary {
+    filter: drop-shadow(0 0 5px hsl(var(--primary) / 0.9)) drop-shadow(0 0 10px hsl(var(--primary) / 0.7));
+  }
+  .icon-glow-accent {
+     filter: drop-shadow(0 0 5px hsl(var(--accent) / 0.9)) drop-shadow(0 0 10px hsl(var(--accent) / 0.7));
+  }
+  .button-glow-primary {
+    box-shadow: 0 0 8px hsl(var(--primary)), 0 0 12px hsl(var(--primary) / 0.7), 0 0 16px hsl(var(--primary) / 0.5);
+  }
+   .button-glow-accent {
+    box-shadow: 0 0 8px hsl(var(--accent)), 0 0 12px hsl(var(--accent) / 0.7), 0 0 16px hsl(var(--accent) / 0.5);
+  }
+
+  .parallax-bg {
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
   }
 }
