@@ -1,8 +1,8 @@
 
 "use client";
 
-import { useEffect, useActionState } from 'react'; // Import useActionState from react
-import { useFormStatus } from 'react-dom'; // Keep useFormStatus from react-dom
+import { useEffect, useActionState } from 'react'; 
+import { useFormStatus } from 'react-dom'; 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -20,7 +20,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { submitSignUpForm, type SignUpFormState } from '@/lib/actions';
 import { useToast } from "@/hooks/use-toast";
-import ClientOnly from '@/components/client-only'; // Import ClientOnly
+import ClientOnly from '@/components/client-only'; 
 
 const SignUpSchema = z.object({
   parentName: z.string().min(2, { message: "Parent's name must be at least 2 characters." }),
@@ -54,7 +54,6 @@ export default function SignUpSection({ id }: SignUpSectionProps) {
   const { toast } = useToast();
 
   const initialState: SignUpFormState = { message: "", success: false };
-  // Use useActionState instead of useFormState
   const [state, formAction] = useActionState(submitSignUpForm, initialState);
 
   const form = useForm<SignUpFormValues>({
@@ -66,7 +65,6 @@ export default function SignUpSection({ id }: SignUpSectionProps) {
       codingExperience: undefined,
       preferredWeek: "",
     },
-    // Use the state from useActionState to determine errors for react-hook-form
     errors: state?.errors ? state.errors : undefined,
   });
 
@@ -77,7 +75,7 @@ export default function SignUpSection({ id }: SignUpSectionProps) {
           title: "Registration Successful!",
           description: state.message,
         });
-        form.reset(); // Reset form on success
+        form.reset(); 
       } else {
         toast({
           title: "Registration Failed",
@@ -91,13 +89,12 @@ export default function SignUpSection({ id }: SignUpSectionProps) {
   return (
     <section id={id} className="py-16 md:py-24 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Wrap the Card with ClientOnly to prevent hydration issues */}
         <ClientOnly>
           <Card className="max-w-2xl mx-auto bg-card border-border/70 shadow-2xl">
             <CardHeader className="text-center">
               <CardTitle className="text-4xl font-bold text-glow-accent mb-2">Join the Vibe!</CardTitle>
               <CardDescription className="text-lg text-muted-foreground">
-                Sign up your child for an unforgettable coding adventure. Spots are limited!
+                Sign up your child for an unforgettable AI-powered building adventure. Spots are limited!
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -143,7 +140,7 @@ export default function SignUpSection({ id }: SignUpSectionProps) {
                 </div>
 
                 <div>
-                  <Label htmlFor="codingExperience" className="text-foreground text-sm font-medium">Student's Coding Experience</Label>
+                  <Label htmlFor="codingExperience" className="text-foreground text-sm font-medium">Student's Tech/AI Experience</Label>
                    <Select name="codingExperience" required>
                     <SelectTrigger
                       id="codingExperience"
@@ -154,9 +151,9 @@ export default function SignUpSection({ id }: SignUpSectionProps) {
                       <SelectValue placeholder="Select experience level" />
                     </SelectTrigger>
                     <SelectContent className="bg-popover border-border">
-                      <SelectItem value="none">None - Complete Beginner</SelectItem>
-                      <SelectItem value="beginner">Beginner - Some basic exposure</SelectItem>
-                      <SelectItem value="intermediate">Intermediate - Has built small projects</SelectItem>
+                      <SelectItem value="none">None - Curious Explorer</SelectItem>
+                      <SelectItem value="beginner">Beginner - Some exposure to tech/AI tools</SelectItem>
+                      <SelectItem value="intermediate">Intermediate - Has experimented with AI or coding</SelectItem>
                     </SelectContent>
                   </Select>
                   {state.errors?.codingExperience && <p id="codingExperience-error" className="text-sm text-destructive mt-1">{state.errors.codingExperience[0]}</p>}

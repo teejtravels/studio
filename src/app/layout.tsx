@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'VibeCode Camp',
-  description: 'Unlock Your Child\'s Inner Coder at VibeCode Camp!',
+  description: 'Learn to build with AI at VibeCode Camp!',
 };
 
 export default function RootLayout({

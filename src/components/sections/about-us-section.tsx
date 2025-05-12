@@ -1,14 +1,14 @@
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Users, Target, Heart } from 'lucide-react';
+import { Users, Target, Heart, Brain } from 'lucide-react';
 
 interface AboutUsSectionProps {
   id: string;
 }
 
 const instructors = [
-  { name: 'Synthia "Syntax" Wave', role: 'Lead Instructor & Vibe Architect', avatarHint: 'woman programmer' },
-  { name: 'Codey "Byte" Rider', role: 'Curriculum Developer & Retro Futurist', avatarHint: 'man glasses' },
+  { name: 'Synthia "Prompt" Wave', role: 'Lead AI Instructor & Vibe Architect', avatarHint: 'woman ai expert' },
+  { name: 'Codey "Gen" Rider', role: 'AI Curriculum Developer & Retro Futurist', avatarHint: 'man ai developer' },
 ];
 
 export default function AboutUsSection({ id }: AboutUsSectionProps) {
@@ -20,7 +20,7 @@ export default function AboutUsSection({ id }: AboutUsSectionProps) {
             About VibeCode Camp
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            We're passionate about making coding accessible, fun, and inspiring for the next generation of innovators.
+            We're passionate about making AI-powered development accessible, fun, and inspiring for the next generation of creators.
           </p>
         </div>
 
@@ -31,7 +31,7 @@ export default function AboutUsSection({ id }: AboutUsSectionProps) {
               <CardTitle className="text-2xl">Our Mission</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <p className="text-muted-foreground">To ignite a passion for technology and creativity in young minds by blending cutting-edge coding education with an unforgettable, immersive 80s synthwave experience.</p>
+              <p className="text-muted-foreground">To ignite a passion for technology and creativity in young minds by blending cutting-edge AI-driven development education with an unforgettable, immersive 80s synthwave experience.</p>
             </CardContent>
           </Card>
           <Card className="bg-card border-border/70">
@@ -40,16 +40,16 @@ export default function AboutUsSection({ id }: AboutUsSectionProps) {
               <CardTitle className="text-2xl">Our Values</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <p className="text-muted-foreground">Creativity, Collaboration, Curiosity, and Coolness. We believe learning should be an adventure, empowering students to build, innovate, and express themselves through code.</p>
+              <p className="text-muted-foreground">Creativity, Collaboration, Curiosity, and AI-Fluency. We believe learning should be an adventure, empowering students to build, innovate, and express themselves by co-creating with AI.</p>
             </CardContent>
           </Card>
           <Card className="bg-card border-border/70">
             <CardHeader className="items-center text-center">
-              <Users className="h-10 w-10 text-secondary mb-2" />
+              <Brain className="h-10 w-10 text-secondary mb-2" /> {/* Changed icon to Brain for AI focus */}
               <CardTitle className="text-2xl">Our Approach</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <p className="text-muted-foreground">"Vibe-Coding" - where the logic of programming meets the art of the 80s. We create a supportive, energetic environment where students feel inspired to explore and create.</p>
+              <p className="text-muted-foreground">"Vibe-Coding" - where the power of AI meets the art of the 80s. Students learn to prompt, guide, and collaborate with AI models to generate code and build amazing applications, all in a supportive and energetic retro-futuristic environment.</p>
             </CardContent>
           </Card>
         </div>
@@ -61,7 +61,7 @@ export default function AboutUsSection({ id }: AboutUsSectionProps) {
           {instructors.map((instructor) => (
             <Card key={instructor.name} className="bg-card border-border/70 p-6 flex flex-col items-center text-center">
               <Image
-                src={`https://picsum.photos/200/200?random=${Math.random()}`} // Random placeholder
+                src={`https://picsum.photos/200/200?random=${Math.random()}`} 
                 alt={`Photo of ${instructor.name}`}
                 data-ai-hint={instructor.avatarHint}
                 width={120}

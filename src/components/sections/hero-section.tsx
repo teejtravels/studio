@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import heroImage from '@/components/img/vibehero.jpg'; // Import the image from src
+import heroImage from '@/components/img/vibehero.jpg'; 
 
 interface HeroSectionProps {
   id: string;
@@ -14,10 +14,10 @@ export default function HeroSection({ id }: HeroSectionProps) {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src={heroImage} // Use the imported image object
+          src={heroImage} 
           alt="VibeCode Camp synthwave hero background"
-          placeholder="blur" // Optional: Add blur placeholder while loading
-          quality={80} // Optional: Adjust quality
+          placeholder="blur" 
+          quality={80} 
           fill
           style={{ objectFit: 'cover' }}
           className="opacity-75"
@@ -30,10 +30,10 @@ export default function HeroSection({ id }: HeroSectionProps) {
       <div className="relative z-20 container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center">
         <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold mb-6">
           <span className="block text-glow-primary">Unlock Your Child's</span>
-          <span className="block text-glow-accent">Inner Coder</span>
+          <span className="block text-glow-accent">AI Superpowers</span>
         </h1>
         <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mb-10">
-          Dive into the world of programming with VibeCode Camp – where learning to code is an electrifying 80s-inspired adventure!
+          Dive into the future of creation with VibeCode Camp – where learning to build with AI is an electrifying 80s-inspired adventure!
         </p>
         <Link href="#sign-up">
           <Button
