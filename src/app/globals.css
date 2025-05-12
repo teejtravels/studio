@@ -17,8 +17,8 @@ body {
     --popover: 230 35% 18%; /* Darker popover */
     --popover-foreground: 210 40% 98%;
 
-    --primary: 190 100% 50%; /* Bright Cyan */
-    --primary-foreground: 230 35% 10%; /* Dark color for text on cyan */
+    --primary: 35 100% 55%; /* Vibrant Orange (was Bright Cyan) */
+    --primary-foreground: 230 35% 10%; /* Dark color for text on orange */
 
     --secondary: 45 90% 65%; /* Softer Yellow */
     --secondary-foreground: 230 35% 10%; /* Dark color for text on yellow */
@@ -34,9 +34,9 @@ body {
 
     --border: 230 35% 30%; /* Border for dark theme */
     --input: 230 35% 22%; /* Input background for dark theme */
-    --ring: 190 100% 50%; /* Cyan for focus rings */
+    --ring: 35 100% 55%; /* Vibrant Orange for focus rings (was Cyan) */
 
-    --chart-1: 190 100% 50%;
+    --chart-1: 35 100% 55%; /* Vibrant Orange (was Bright Cyan) */
     --chart-2: 320 100% 55%;
     --chart-3: 45 90% 65%;
     --chart-4: 210 100% 60%;
@@ -44,15 +44,15 @@ body {
 
     --radius: 0.5rem;
 
-    /* Sidebar colors (less relevant for this landing page, but good to keep consistent) */
+    /* Sidebar colors */
     --sidebar-background: 230 35% 12%;
     --sidebar-foreground: 210 40% 90%;
-    --sidebar-primary: 190 100% 50%;
+    --sidebar-primary: 35 100% 55%; /* Vibrant Orange (was Bright Cyan) */
     --sidebar-primary-foreground: 230 35% 10%;
     --sidebar-accent: 320 100% 55%;
     --sidebar-accent-foreground: 210 40% 98%;
     --sidebar-border: 230 35% 25%;
-    --sidebar-ring: 190 100% 50%;
+    --sidebar-ring: 35 100% 55%; /* Vibrant Orange (was Bright Cyan) */
   }
 
   .dark {
@@ -63,7 +63,7 @@ body {
     --card-foreground: 210 40% 98%;
     --popover: 230 35% 18%;
     --popover-foreground: 210 40% 98%;
-    --primary: 190 100% 50%;
+    --primary: 35 100% 55%; /* Vibrant Orange */
     --primary-foreground: 230 35% 10%;
     --secondary: 45 90% 65%;
     --secondary-foreground: 230 35% 10%;
@@ -75,9 +75,9 @@ body {
     --destructive-foreground: 0 0% 98%;
     --border: 230 35% 30%;
     --input: 230 35% 22%;
-    --ring: 190 100% 50%;
+    --ring: 35 100% 55%; /* Vibrant Orange */
 
-    --chart-1: 190 100% 50%;
+    --chart-1: 35 100% 55%;
     --chart-2: 320 100% 55%;
     --chart-3: 45 90% 65%;
     --chart-4: 210 100% 60%;
@@ -85,12 +85,12 @@ body {
 
     --sidebar-background: 230 35% 12%;
     --sidebar-foreground: 210 40% 90%;
-    --sidebar-primary: 190 100% 50%;
+    --sidebar-primary: 35 100% 55%;
     --sidebar-primary-foreground: 230 35% 10%;
     --sidebar-accent: 320 100% 55%;
     --sidebar-accent-foreground: 210 40% 98%;
     --sidebar-border: 230 35% 25%;
-    --sidebar-ring: 190 100% 50%;
+    --sidebar-ring: 35 100% 55%;
   }
 }
 
