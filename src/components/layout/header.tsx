@@ -37,9 +37,10 @@ export default function Header() {
       <div className="container mx-auto flex h-16 max-w-screen-2xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-2">
           <Brain className="h-8 w-8 text-primary icon-glow-primary" /> {/* Changed Code2 to Brain */}
-          <span className="text-2xl font-bold text-glow-primary">VibeCode Camp</span>
+          {/* Updated brand name */}
+          <span className="text-2xl font-bold text-glow-primary">Camp Vibe Code</span>
         </Link>
-        
+
         <nav className="hidden md:flex items-center space-x-1">
           <NavLinks />
         </nav>

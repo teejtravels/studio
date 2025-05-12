@@ -18,7 +18,8 @@ export default function AboutUsSection({ id }: AboutUsSectionProps) {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold mb-4 text-glow-accent">
-            About VibeCode Camp
+            {/* Updated brand name */}
+            About Camp Vibe Code
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             We're passionate about making AI-powered development accessible, fun, and inspiring for the next generation of creators.
@@ -59,11 +60,11 @@ export default function AboutUsSection({ id }: AboutUsSectionProps) {
           <h3 className="text-3xl font-bold mb-8 text-glow-primary">Meet the Instructors</h3>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
-          <ClientOnly> 
+          <ClientOnly>
             {instructors.map((instructor) => (
               <Card key={instructor.name} className="bg-card border-border/70 p-6 flex flex-col items-center text-center">
                 <Image
-                  src={`https://picsum.photos/200/200?random=${Math.random()}`}
+                  src={`https://picsum.photos/200/200?random=${instructor.name.replace(/\s+/g, '')}`} // Use name for consistency
                   alt={`Photo of ${instructor.name}`}
                   data-ai-hint={instructor.avatarHint}
                   width={120}
