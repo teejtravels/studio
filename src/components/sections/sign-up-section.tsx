@@ -1,8 +1,8 @@
 
 "use client";
 
-import { useEffect } from 'react';
-import { useFormState, useFormStatus } from 'react-dom';
+import { useEffect, useActionState } from 'react'; // Import useActionState from react
+import { useFormStatus } from 'react-dom'; // Keep useFormStatus from react-dom
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -38,9 +38,9 @@ interface SignUpSectionProps {
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
-    <Button 
-      type="submit" 
-      className="w-full bg-accent hover:bg-accent/90 text-accent-foreground text-lg py-6 button-glow-accent transition-all duration-300 transform hover:scale-105" 
+    <Button
+      type="submit"
+      className="w-full bg-accent hover:bg-accent/90 text-accent-foreground text-lg py-6 button-glow-accent transition-all duration-300 transform hover:scale-105"
       disabled={pending}
       aria-label="Submit sign up form"
     >
@@ -51,9 +51,10 @@ function SubmitButton() {
 
 export default function SignUpSection({ id }: SignUpSectionProps) {
   const { toast } = useToast();
-  
+
   const initialState: SignUpFormState = { message: "", success: false };
-  const [state, formAction] = useFormState(submitSignUpForm, initialState);
+  // Use useActionState instead of useFormState
+  const [state, formAction] = useActionState(submitSignUpForm, initialState);
 
   const form = useForm<SignUpFormValues>({
     resolver: zodResolver(SignUpSchema),
@@ -61,9 +62,11 @@ export default function SignUpSection({ id }: SignUpSectionProps) {
       parentName: "",
       studentName: "",
       email: "",
-      codingExperience: undefined, 
+      codingExperience: undefined,
       preferredWeek: "",
     },
+    // Use the state from useActionState to determine errors for react-hook-form
+    errors: state?.errors ? state.errors : undefined,
   });
 
   useEffect(() => {
@@ -98,10 +101,10 @@ export default function SignUpSection({ id }: SignUpSectionProps) {
             <form action={formAction} className="space-y-6">
               <div>
                 <Label htmlFor="parentName" className="text-foreground text-sm font-medium">Parent's Name</Label>
-                <Input 
-                  id="parentName" 
-                  name="parentName" 
-                  required 
+                <Input
+                  id="parentName"
+                  name="parentName"
+                  required
                   className="mt-1 bg-input border-border focus:ring-primary focus:border-primary"
                   aria-invalid={!!state.errors?.parentName}
                   aria-describedby="parentName-error"
@@ -111,10 +114,10 @@ export default function SignUpSection({ id }: SignUpSectionProps) {
 
               <div>
                 <Label htmlFor="studentName" className="text-foreground text-sm font-medium">Student's Name</Label>
-                <Input 
-                  id="studentName" 
-                  name="studentName" 
-                  required 
+                <Input
+                  id="studentName"
+                  name="studentName"
+                  required
                   className="mt-1 bg-input border-border focus:ring-primary focus:border-primary"
                   aria-invalid={!!state.errors?.studentName}
                   aria-describedby="studentName-error"
@@ -124,11 +127,11 @@ export default function SignUpSection({ id }: SignUpSectionProps) {
 
               <div>
                 <Label htmlFor="email" className="text-foreground text-sm font-medium">Email Address</Label>
-                <Input 
-                  id="email" 
-                  name="email" 
-                  type="email" 
-                  required 
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  required
                   className="mt-1 bg-input border-border focus:ring-primary focus:border-primary"
                   aria-invalid={!!state.errors?.email}
                   aria-describedby="email-error"
@@ -139,8 +142,8 @@ export default function SignUpSection({ id }: SignUpSectionProps) {
               <div>
                 <Label htmlFor="codingExperience" className="text-foreground text-sm font-medium">Student's Coding Experience</Label>
                  <Select name="codingExperience" required>
-                  <SelectTrigger 
-                    id="codingExperience" 
+                  <SelectTrigger
+                    id="codingExperience"
                     className="mt-1 w-full bg-input border-border focus:ring-primary focus:border-primary"
                     aria-invalid={!!state.errors?.codingExperience}
                     aria-describedby="codingExperience-error"
@@ -155,12 +158,12 @@ export default function SignUpSection({ id }: SignUpSectionProps) {
                 </Select>
                 {state.errors?.codingExperience && <p id="codingExperience-error" className="text-sm text-destructive mt-1">{state.errors.codingExperience[0]}</p>}
               </div>
-              
+
               <div>
                 <Label htmlFor="preferredWeek" className="text-foreground text-sm font-medium">Preferred Camp Week</Label>
                 <Select name="preferredWeek" required>
-                  <SelectTrigger 
-                    id="preferredWeek" 
+                  <SelectTrigger
+                    id="preferredWeek"
                     className="mt-1 w-full bg-input border-border focus:ring-primary focus:border-primary"
                     aria-invalid={!!state.errors?.preferredWeek}
                     aria-describedby="preferredWeek-error"
