@@ -12,12 +12,12 @@ export default function HeroSection({ id }: HeroSectionProps) {
       {/* Background Image with Parallax Effect */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="https://picsum.photos/1920/1080?random=10" // Updated placeholder, use random=10 or similar
-          alt="Synthwave sunset background with palm trees for VibeCode Camp"
-          data-ai-hint="synthwave sunset palm trees" // Updated AI hint
+          src="/img/vibehero.jpg" // Use local image from public/img/vibehero.jpg
+          alt="VibeCode Camp synthwave hero background"
+          data-ai-hint="synthwave cityscape" // Updated AI hint for the new image
           fill
           style={{ objectFit: 'cover' }}
-          className="parallax-bg opacity-50" // Increased opacity for more vibrant background
+          className="parallax-bg opacity-50" // Opacity can be adjusted based on the image
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/80 to-background z-10"></div>
