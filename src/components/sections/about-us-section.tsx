@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Users, Target, Heart, Brain } from 'lucide-react';
+import ClientOnly from '@/components/client-only'; // Import ClientOnly
 
 interface AboutUsSectionProps {
   id: string;
@@ -8,7 +9,7 @@ interface AboutUsSectionProps {
 
 const instructors = [
   { name: 'Synthia "Prompt" Wave', role: 'Lead AI Instructor & Vibe Architect', avatarHint: 'woman ai expert' },
-  { name: 'Codey "Gen" Rider', role: 'AI Curriculum Developer & Retro Futurist', avatarHint: 'man ai developer' },
+  { name: 'Codey "Gen" Rider', role: 'AI Curriculum Developer & Code Mentor', avatarHint: 'man ai developer' }, // Updated role
 ];
 
 export default function AboutUsSection({ id }: AboutUsSectionProps) {
@@ -31,7 +32,7 @@ export default function AboutUsSection({ id }: AboutUsSectionProps) {
               <CardTitle className="text-2xl">Our Mission</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <p className="text-muted-foreground">To ignite a passion for technology and creativity in young minds by blending cutting-edge AI-driven development education with an unforgettable, immersive 80s synthwave experience.</p>
+              <p className="text-muted-foreground">To ignite a passion for technology and creativity in young minds through cutting-edge, AI-driven development education.</p>
             </CardContent>
           </Card>
           <Card className="bg-card border-border/70">
@@ -49,7 +50,7 @@ export default function AboutUsSection({ id }: AboutUsSectionProps) {
               <CardTitle className="text-2xl">Our Approach</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <p className="text-muted-foreground">"Vibe-Coding" - where the power of AI meets the art of the 80s. Students learn to prompt, guide, and collaborate with AI models to generate code and build amazing applications, all in a supportive and energetic retro-futuristic environment.</p>
+              <p className="text-muted-foreground">"Vibe-Coding" - our unique approach where students learn to prompt, guide, and collaborate with AI models to generate code and build amazing applications in a supportive and energetic environment.</p>
             </CardContent>
           </Card>
         </div>
@@ -58,20 +59,22 @@ export default function AboutUsSection({ id }: AboutUsSectionProps) {
           <h3 className="text-3xl font-bold mb-8 text-glow-primary">Meet the Instructors</h3>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-3xl mx-auto">
-          {instructors.map((instructor) => (
-            <Card key={instructor.name} className="bg-card border-border/70 p-6 flex flex-col items-center text-center">
-              <Image
-                src={`https://picsum.photos/200/200?random=${Math.random()}`} 
-                alt={`Photo of ${instructor.name}`}
-                data-ai-hint={instructor.avatarHint}
-                width={120}
-                height={120}
-                className="rounded-full mb-4 border-4 border-primary"
-              />
-              <h4 className="text-xl font-semibold text-foreground mb-1">{instructor.name}</h4>
-              <p className="text-primary text-sm">{instructor.role}</p>
-            </Card>
-          ))}
+          <ClientOnly> 
+            {instructors.map((instructor) => (
+              <Card key={instructor.name} className="bg-card border-border/70 p-6 flex flex-col items-center text-center">
+                <Image
+                  src={`https://picsum.photos/200/200?random=${Math.random()}`}
+                  alt={`Photo of ${instructor.name}`}
+                  data-ai-hint={instructor.avatarHint}
+                  width={120}
+                  height={120}
+                  className="rounded-full mb-4 border-4 border-primary"
+                />
+                <h4 className="text-xl font-semibold text-foreground mb-1">{instructor.name}</h4>
+                <p className="text-primary text-sm">{instructor.role}</p>
+              </Card>
+            ))}
+          </ClientOnly>
         </div>
       </div>
     </section>

@@ -9,7 +9,7 @@ const infoItems = [
   {
     icon: <Zap className="h-10 w-10 text-primary icon-glow-primary" />,
     title: 'AI-Powered Curriculum',
-    description: 'Our curriculum is designed to be engaging and fun, teaching how to leverage AI models for code generation and creative projects, all wrapped in a retro-tech and synthwave aesthetic.',
+    description: 'Our curriculum is designed to be engaging and fun, teaching how to leverage AI models for code generation and creative projects.',
   },
   {
     icon: <BrainCircuit className="h-10 w-10 text-accent icon-glow-accent" />,
@@ -17,7 +17,7 @@ const infoItems = [
     description: 'Students will get hands-on experience with prompting AI, understanding GenAI models, and using modern tools to build AI-integrated applications.',
   },
   {
-    icon: <Github className="h-10 w-10 text-secondary" />, 
+    icon: <Github className="h-10 w-10 text-secondary" />,
     title: 'Collaborate with GitHub',
     description: 'Learn version control basics with GitHub, understanding how to manage AI projects, collaborate with others, and showcase their innovative work.',
   },
@@ -42,7 +42,7 @@ export default function CampInfoSection({ id }: CampInfoSectionProps) {
             What Your Child Will Create & Learn
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            We provide a cutting-edge AI learning experience wrapped in an unforgettable retro-futuristic theme.
+            We provide a cutting-edge AI learning experience focused on building real-world applications.
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
