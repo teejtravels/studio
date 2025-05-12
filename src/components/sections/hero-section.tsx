@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import heroImage from '@/components/img/vibehero.jpg'; // Import the image from src
 
 interface HeroSectionProps {
   id: string;
@@ -13,12 +14,13 @@ export default function HeroSection({ id }: HeroSectionProps) {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/img/vibehero.jpg" // Use local image from public/img/vibehero.jpg
+          src={heroImage} // Use the imported image object
           alt="VibeCode Camp synthwave hero background"
-          data-ai-hint="synthwave cityscape" // Updated AI hint for the new image
+          placeholder="blur" // Optional: Add blur placeholder while loading
+          quality={80} // Optional: Adjust quality
           fill
           style={{ objectFit: 'cover' }}
-          className="opacity-75" // Removed parallax, increased opacity slightly
+          className="opacity-75"
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/80 to-background z-10"></div>
