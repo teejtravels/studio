@@ -117,7 +117,7 @@ body {
       0 0 15px hsl(var(--primary) / 0.4);
   }
    .text-glow-accent {
-    color: hsl(var(--accent-foreground));
+    color: hsl(var(--accent)); /* Use accent color for the text itself */
     text-shadow:
       0 0 2px hsl(var(--background)),
       0 0 5px hsl(var(--accent) / 0.8),
