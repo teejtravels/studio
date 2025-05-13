@@ -2,6 +2,7 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+// Corrected image import path
 import heroImage from '@/components/img/vibehero.jpg';
 
 interface HeroSectionProps {
