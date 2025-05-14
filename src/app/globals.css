@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), sans-serif; /* Use Exo 2 as default */
 }
 
 @layer base {
@@ -103,12 +103,18 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans), sans-serif; /* Use Exo 2 as default */
     min-height: 100vh;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-audiowide), sans-serif; /* Use Audiowide for headings */
+    @apply font-bold; /* Example: ensure headings are bold */
   }
 }
 
 @layer utilities {
   .text-glow-primary {
+    font-family: var(--font-audiowide), sans-serif; /* Audiowide for neon text */
     color: hsl(var(--primary)); /* Use primary color directly for cyan text */
     text-shadow:
       0 0 2px hsl(var(--background)), /* Inner dark shadow for contrast */
@@ -117,6 +123,7 @@ body {
       0 0 15px hsl(var(--primary) / 0.4);
   }
    .text-glow-accent {
+    font-family: var(--font-audiowide), sans-serif; /* Audiowide for neon text */
     color: hsl(var(--accent)); /* Use accent color for the text itself */
     text-shadow:
       0 0 2px hsl(var(--background)),

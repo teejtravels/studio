@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
-// Using Geist Sans and Mono fonts
-import { Inter as FontSans } from 'next/font/google';
-// Removed localFont import as the file is missing
-// import localFont from 'next/font/local';
+// Using Audiowide and Exo 2 fonts
+import { Audiowide, Exo_2 as FontSans } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
@@ -12,19 +10,18 @@ import { cn } from '@/lib/utils'; // Import cn utility
 const fontSans = FontSans({
   subsets: ['latin'],
   variable: '--font-sans',
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'], // Specify available weights
 });
 
-// Removed fontHeading as the file is missing
-// const fontHeading = localFont({
-//   src: '../assets/fonts/CalSans-SemiBold.woff2',
-//   variable: '--font-heading',
-// });
+const fontAudiowide = Audiowide({
+  subsets: ['latin'],
+  variable: '--font-audiowide',
+  weight: '400', // Audiowide only has 400 weight
+});
 
 
 export const metadata: Metadata = {
-  // Updated title
   title: 'Camp Vibe Code',
-  // Updated description
   description: 'Learn to build with AI at Camp Vibe Code!',
 };
 
@@ -35,16 +32,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Monoton&family=Righteous&display=swap" rel="stylesheet" />
+      </head>
       <body
         className={cn(
-          'min-h-screen bg-background font-sans antialiased flex flex-col', // Added flex flex-col
+          'min-h-screen bg-background font-sans antialiased flex flex-col',
            fontSans.variable,
-           // Removed fontHeading variable
-           // fontHeading.variable
+           fontAudiowide.variable // Add Audiowide variable
          )}
        >
         <Header />
-        {/* Ensure main takes up available space */}
         <main className="flex-grow">{children}</main>
         <Footer />
         <Toaster />
