@@ -25,7 +25,7 @@ export default function HeroSection({ id }: HeroSectionProps) {
           priority // Load image sooner
         />
         {/* Adjusted overlay opacity to show more of the background image */}
-        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/50 to-background/80 z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-background/35 via-background/75 to-background/30 z-10"></div>
       </div>
 
       {/* Content */}
