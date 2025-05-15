@@ -32,6 +32,7 @@ const SignUpSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
   codingExperience: z.enum(['none', 'beginner', 'intermediate']),
   preferredWeek: z.string().min(1, {message: "Please select a week"}),
+  studentGrade: z.string().min(1, { message: "Student's grade is required." }),
 });
 
 
@@ -73,9 +74,9 @@ export default function SignUpSection({ id }: SignUpSectionProps) {
       email: "",
       codingExperience: undefined,
       preferredWeek: "",
+      studentGrade: "",
     },
-    // If the server action returns errors, populate the form errors
-    errors: state?.errors ? state.errors : undefined,
+    // Errors are set manually in useEffect based on server action state
   });
 
   useEffect(() => {
@@ -249,6 +250,44 @@ export default function SignUpSection({ id }: SignUpSectionProps) {
                    <p id="codingExperience-error" className="text-sm text-destructive mt-1">
                     {form.formState.errors.codingExperience?.message || (state.errors?.codingExperience ? state.errors.codingExperience[0] : '')}
                    </p>
+                </div>
+
+                {/* Student Grade Select */}
+                <div>
+                  <Label htmlFor="studentGrade" className="text-foreground text-sm font-medium">Student's Grade (Upcoming School Year)</Label>
+                  <Select
+                    name="studentGrade" // Keep name for FormData
+                    required
+                    onValueChange={(value) => form.setValue('studentGrade', value, { shouldValidate: true })} // Update RHF state
+                    value={form.watch('studentGrade')} // Control component with RHF state
+                  >
+                    <SelectTrigger
+                      id="studentGrade"
+                      className="mt-1 w-full bg-input border-border focus:ring-primary focus:border-primary"
+                      aria-invalid={!!form.formState.errors.studentGrade || !!state.errors?.studentGrade}
+                      aria-describedby="studentGrade-error"
+                    >
+                      <SelectValue placeholder="Select student's grade" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-popover border-border">
+                      <SelectItem value="1">1st Grade</SelectItem>
+                      <SelectItem value="2">2nd Grade</SelectItem>
+                      <SelectItem value="3">3rd Grade</SelectItem>
+                      <SelectItem value="4">4th Grade</SelectItem>
+                      <SelectItem value="5">5th Grade</SelectItem>
+                      <SelectItem value="6">6th Grade</SelectItem>
+                      <SelectItem value="7">7th Grade</SelectItem>
+                      <SelectItem value="8">8th Grade</SelectItem>
+                      <SelectItem value="9">9th Grade</SelectItem>
+                      <SelectItem value="10">10th Grade</SelectItem>
+                      <SelectItem value="11">11th Grade</SelectItem>
+                      <SelectItem value="12">12th Grade</SelectItem>
+                      <SelectItem value="Other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <p id="studentGrade-error" className="text-sm text-destructive mt-1">
+                    {form.formState.errors.studentGrade?.message || (state.errors?.studentGrade ? state.errors.studentGrade[0] : '')}
+                  </p>
                 </div>
 
                 {/* Preferred Week Select */}

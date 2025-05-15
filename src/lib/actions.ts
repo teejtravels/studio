@@ -12,6 +12,7 @@ const SignUpSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
   codingExperience: z.enum(['none', 'beginner', 'intermediate'], { message: "Please select coding experience." }),
   preferredWeek: z.string().min(1, { message: "Please select a preferred week." }),
+  studentGrade: z.string().min(1, { message: "Student's grade is required." }),
 });
 
 // Updated state type for errors
@@ -25,6 +26,7 @@ export type SignUpFormState = {
     email?: string[];
     codingExperience?: string[];
     preferredWeek?: string[];
+    studentGrade?: string[];
   };
   success: boolean;
   // Add a field to optionally return data for post-success actions like payment links
@@ -43,6 +45,7 @@ export async function submitSignUpForm(
     email: formData.get('email'),
     codingExperience: formData.get('codingExperience'),
     preferredWeek: formData.get('preferredWeek'),
+    studentGrade: formData.get('studentGrade'),
   });
 
   if (!validatedFields.success) {
@@ -55,19 +58,63 @@ export async function submitSignUpForm(
 
   const submissionData = validatedFields.data;
 
-  // **Google Sheet / Database Integration Simulation:**
-  // In a real application, you would send this data to your backend,
-  // which would then save it to a Google Sheet, database (e.g., Firestore), etc.
-  // Example:
-  // try {
-  //   await saveToGoogleSheet(submissionData);
-  //   // Or: await db.collection('signups').add(submissionData);
-  // } catch (error) {
-  //   console.error("Data submission error:", error);
-  //   return { message: "An error occurred saving your registration. Please try again.", success: false };
-  // }
+  const AIRTABLE_API_TOKEN = "pattG57kiuclIXGZK.588ad2197b7ce2feaa2a756ab958226225e89f412d26023f41256b25689ff97e";
+  const AIRTABLE_BASE_ID = "appLGr7iBCSEKriBN";
+  const AIRTABLE_TABLE_NAME = "website signups"; // Updated table name
+  const airtableUrl = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE_NAME)}`;
 
-  console.log("Form data submitted (simulated save):", submissionData);
+  try {
+    const airtableResponse = await fetch(airtableUrl, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${AIRTABLE_API_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        records: [
+          {
+            fields: {
+              "Parent First Name": submissionData.parentFirstName,
+              "Parent Last Name": submissionData.parentLastName,
+              "Student First Name": submissionData.studentFirstName,
+              "Student Last Name": submissionData.studentLastName,
+              "Email": submissionData.email,
+              "Coding Experience": submissionData.codingExperience,
+              "Preferred Week": submissionData.preferredWeek,
+              "Student Grade": submissionData.studentGrade,
+              // Assuming your Airtable has columns with these exact names.
+              // Adjust if your Airtable column names are different.
+            },
+          },
+        ],
+      }),
+    });
+
+    if (!airtableResponse.ok) {
+      const errorData = await airtableResponse.json();
+      console.error("Airtable API Error:", errorData);
+      let errorMessage = "Failed to submit registration to Airtable.";
+      if (errorData && errorData.error && errorData.error.message) {
+        errorMessage += ` Details: ${errorData.error.message}`;
+      } else if (airtableResponse.statusText) {
+        errorMessage += ` Status: ${airtableResponse.statusText}`;
+      }
+      return {
+        message: errorMessage,
+        success: false,
+      };
+    }
+
+    const airtableResult = await airtableResponse.json();
+    console.log("Airtable submission successful:", airtableResult);
+
+  } catch (error) {
+    console.error("Error submitting to Airtable:", error);
+    return {
+      message: "An unexpected error occurred while submitting your registration. Please try again.",
+      success: false,
+    };
+  }
 
   // **Stripe Payment Link Generation (Simulation):**
   // Here, you might interact with Stripe's API to create a checkout session
@@ -80,4 +127,3 @@ export async function submitSignUpForm(
     submissionData: submissionData, // Pass data back for potential client-side actions
   };
 }
-
