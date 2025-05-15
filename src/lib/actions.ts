@@ -58,10 +58,18 @@ export async function submitSignUpForm(
 
   const submissionData = validatedFields.data;
 
-  const AIRTABLE_API_TOKEN = "pattG57kiuclIXGZK.588ad2197b7ce2feaa2a756ab958226225e89f412d26023f41256b25689ff97e";
-  const AIRTABLE_BASE_ID = "appLGr7iBCSEKriBN";
-  const AIRTABLE_TABLE_NAME = "website signups"; // Updated table name
+  const AIRTABLE_API_TOKEN = process.env.AIRTABLE_API_TOKEN; // Read from environment variable
+  const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID; // Read Base ID from environment variable
+  const AIRTABLE_TABLE_NAME = "website signups"; // Keep Table Name hardcoded or move to env var if needed
   const airtableUrl = `https://api.airtable.com/v0/${AIRTABLE_BASE_ID}/${encodeURIComponent(AIRTABLE_TABLE_NAME)}`;
+
+  if (!AIRTABLE_API_TOKEN || !AIRTABLE_BASE_ID) {
+    console.error("Airtable API token or Base ID is not set in environment variables.");
+    return {
+      message: "Server configuration error: Airtable API token or Base ID is missing.",
+      success: false,
+    };
+  }
 
   try {
     const airtableResponse = await fetch(airtableUrl, {
